@@ -6,22 +6,61 @@
 #nullable disable
 
 using System;
+using System.Threading;
 using Azure.Core.Pipeline;
 
 namespace Specs.Azure.ClientGenerator.Core.HierarchyBuilding
 {
+    /// <summary> Test for @hierarchyBuilding decorator. </summary>
     public partial class HierarchyBuildingClient
     {
-        public HierarchyBuildingClient() : this(new Uri("http://localhost:3000"), new HierarchyBuildingClientOptions()) => throw null;
+        private readonly Uri _endpoint;
+        private AnimalOperations _cachedAnimalOperations;
+        private PetOperations _cachedPetOperations;
+        private DogOperations _cachedDogOperations;
 
-        public HierarchyBuildingClient(Uri endpoint, HierarchyBuildingClientOptions options) => throw null;
+        /// <summary> Initializes a new instance of HierarchyBuildingClient. </summary>
+        public HierarchyBuildingClient() : this(new Uri("http://localhost:3000"), new HierarchyBuildingClientOptions())
+        {
+        }
 
-        public virtual HttpPipeline Pipeline => throw null;
+        /// <summary> Initializes a new instance of HierarchyBuildingClient. </summary>
+        /// <param name="endpoint"> Service endpoint. </param>
+        /// <param name="options"> The options for configuring the client. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="endpoint"/> is null. </exception>
+        public HierarchyBuildingClient(Uri endpoint, HierarchyBuildingClientOptions options)
+        {
+            Argument.AssertNotNull(endpoint, nameof(endpoint));
 
-        public virtual AnimalOperations GetAnimalOperationsClient() => throw null;
+            options ??= new HierarchyBuildingClientOptions();
 
-        public virtual PetOperations GetPetOperationsClient() => throw null;
+            _endpoint = endpoint;
+            Pipeline = HttpPipelineBuilder.Build(options, Array.Empty<HttpPipelinePolicy>());
+            ClientDiagnostics = new ClientDiagnostics(options, true);
+        }
 
-        public virtual DogOperations GetDogOperationsClient() => throw null;
+        /// <summary> The HTTP pipeline for sending and receiving REST requests and responses. </summary>
+        public virtual HttpPipeline Pipeline { get; }
+
+        /// <summary> The ClientDiagnostics is used to provide tracing support for the client library. </summary>
+        internal ClientDiagnostics ClientDiagnostics { get; }
+
+        /// <summary> Initializes a new instance of AnimalOperations. </summary>
+        public virtual AnimalOperations GetAnimalOperationsClient()
+        {
+            return Volatile.Read(ref _cachedAnimalOperations) ?? Interlocked.CompareExchange(ref _cachedAnimalOperations, new AnimalOperations(ClientDiagnostics, Pipeline, _endpoint), null) ?? _cachedAnimalOperations;
+        }
+
+        /// <summary> Initializes a new instance of PetOperations. </summary>
+        public virtual PetOperations GetPetOperationsClient()
+        {
+            return Volatile.Read(ref _cachedPetOperations) ?? Interlocked.CompareExchange(ref _cachedPetOperations, new PetOperations(ClientDiagnostics, Pipeline, _endpoint), null) ?? _cachedPetOperations;
+        }
+
+        /// <summary> Initializes a new instance of DogOperations. </summary>
+        public virtual DogOperations GetDogOperationsClient()
+        {
+            return Volatile.Read(ref _cachedDogOperations) ?? Interlocked.CompareExchange(ref _cachedDogOperations, new DogOperations(ClientDiagnostics, Pipeline, _endpoint), null) ?? _cachedDogOperations;
+        }
     }
 }

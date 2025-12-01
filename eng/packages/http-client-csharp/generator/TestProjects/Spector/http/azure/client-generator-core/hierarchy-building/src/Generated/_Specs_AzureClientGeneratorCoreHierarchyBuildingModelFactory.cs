@@ -7,12 +7,38 @@
 
 namespace Specs.Azure.ClientGenerator.Core.HierarchyBuilding
 {
+    /// <summary> A factory class for creating instances of the models for mocking. </summary>
     public static partial class _Specs_AzureClientGeneratorCoreHierarchyBuildingModelFactory
     {
-        public static Animal Animal(string kind = default, string name = default) => throw null;
+        /// <summary>
+        /// The Animal.
+        /// Please note this is the abstract base class. The derived classes available for instantiation are: <see cref="HierarchyBuilding.Pet"/> and <see cref="HierarchyBuilding.Dog"/>.
+        /// </summary>
+        /// <param name="kind"> The kind of animal. </param>
+        /// <param name="name"> Name of the animal. </param>
+        /// <returns> A new <see cref="HierarchyBuilding.Animal"/> instance for mocking. </returns>
+        public static Animal Animal(string kind = default, string name = default)
+        {
+            return new UnknownAnimal(kind, name, additionalBinaryDataProperties: null);
+        }
 
-        public static Pet Pet(string name = default, bool trained = default) => throw null;
+        /// <summary> The Pet. </summary>
+        /// <param name="name"> Name of the animal. </param>
+        /// <param name="trained"> Whether the pet is trained. </param>
+        /// <returns> A new <see cref="HierarchyBuilding.Pet"/> instance for mocking. </returns>
+        public static Pet Pet(string name = default, bool trained = default)
+        {
+            return new Pet("pet", name, additionalBinaryDataProperties: null, trained);
+        }
 
-        public static Dog Dog(string name = default, bool trained = default, string breed = default) => throw null;
+        /// <summary> The Dog. </summary>
+        /// <param name="name"> Name of the animal. </param>
+        /// <param name="trained"> Whether the pet is trained. </param>
+        /// <param name="breed"> The breed of the dog. </param>
+        /// <returns> A new <see cref="HierarchyBuilding.Dog"/> instance for mocking. </returns>
+        public static Dog Dog(string name = default, bool trained = default, string breed = default)
+        {
+            return new Dog("pet", name, additionalBinaryDataProperties: null, trained, breed);
+        }
     }
 }

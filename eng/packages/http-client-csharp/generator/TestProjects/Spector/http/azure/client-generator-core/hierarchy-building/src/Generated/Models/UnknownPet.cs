@@ -12,6 +12,13 @@ namespace Specs.Azure.ClientGenerator.Core.HierarchyBuilding
 {
     internal partial class UnknownPet : Pet
     {
-        internal UnknownPet(string kind, string name, IDictionary<string, BinaryData> additionalBinaryDataProperties, bool trained) : base(kind ?? "unknown", name, additionalBinaryDataProperties, trained) => throw null;
+        /// <summary> Initializes a new instance of <see cref="UnknownPet"/>. </summary>
+        /// <param name="kind"> The kind of animal. </param>
+        /// <param name="name"> Name of the animal. </param>
+        /// <param name="additionalBinaryDataProperties"> Keeps track of any properties unknown to the library. </param>
+        /// <param name="trained"> Whether the pet is trained. </param>
+        internal UnknownPet(string kind, string name, IDictionary<string, BinaryData> additionalBinaryDataProperties, bool trained) : base(kind ?? "unknown", name, additionalBinaryDataProperties, trained)
+        {
+        }
     }
 }

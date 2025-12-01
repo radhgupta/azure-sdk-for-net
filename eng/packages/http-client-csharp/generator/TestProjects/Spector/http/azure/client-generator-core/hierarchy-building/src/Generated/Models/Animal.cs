@@ -10,22 +10,39 @@ using System.Collections.Generic;
 
 namespace Specs.Azure.ClientGenerator.Core.HierarchyBuilding
 {
+    /// <summary>
+    /// The Animal.
+    /// Please note this is the abstract base class. The derived classes available for instantiation are: <see cref="Pet"/> and <see cref="Dog"/>.
+    /// </summary>
     public abstract partial class Animal
     {
-        private protected Animal(string kind, string name) => throw null;
+        /// <summary> Keeps track of any properties unknown to the library. </summary>
+        private protected readonly IDictionary<string, BinaryData> _additionalBinaryDataProperties;
 
-        internal Animal(string kind, string name, IDictionary<string, BinaryData> additionalBinaryDataProperties) => throw null;
-
-        internal string Kind
+        /// <summary> Initializes a new instance of <see cref="Animal"/>. </summary>
+        /// <param name="kind"> The kind of animal. </param>
+        /// <param name="name"> Name of the animal. </param>
+        private protected Animal(string kind, string name)
         {
-            get => throw null;
-            set => throw null;
+            Kind = kind;
+            Name = name;
         }
 
-        public string Name
+        /// <summary> Initializes a new instance of <see cref="Animal"/>. </summary>
+        /// <param name="kind"> The kind of animal. </param>
+        /// <param name="name"> Name of the animal. </param>
+        /// <param name="additionalBinaryDataProperties"> Keeps track of any properties unknown to the library. </param>
+        internal Animal(string kind, string name, IDictionary<string, BinaryData> additionalBinaryDataProperties)
         {
-            get => throw null;
-            set => throw null;
+            Kind = kind;
+            Name = name;
+            _additionalBinaryDataProperties = additionalBinaryDataProperties;
         }
+
+        /// <summary> The kind of animal. </summary>
+        internal string Kind { get; set; }
+
+        /// <summary> Name of the animal. </summary>
+        public string Name { get; set; }
     }
 }

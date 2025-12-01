@@ -10,16 +10,34 @@ using System.Collections.Generic;
 
 namespace Specs.Azure.ClientGenerator.Core.HierarchyBuilding
 {
+    /// <summary> The Dog. </summary>
     public partial class Dog : Pet
     {
-        public Dog(string name, bool trained, string breed) : base("dog", name, trained) => throw null;
-
-        internal Dog(string kind, string name, IDictionary<string, BinaryData> additionalBinaryDataProperties, bool trained, string breed) : base(kind, name, additionalBinaryDataProperties, trained) => throw null;
-
-        public string Breed
+        /// <summary> Initializes a new instance of <see cref="Dog"/>. </summary>
+        /// <param name="name"> Name of the animal. </param>
+        /// <param name="trained"> Whether the pet is trained. </param>
+        /// <param name="breed"> The breed of the dog. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="breed"/> is null. </exception>
+        public Dog(string name, bool trained, string breed) : base("dog", name, trained)
         {
-            get => throw null;
-            set => throw null;
+            Argument.AssertNotNull(name, nameof(name));
+            Argument.AssertNotNull(breed, nameof(breed));
+
+            Breed = breed;
         }
+
+        /// <summary> Initializes a new instance of <see cref="Dog"/>. </summary>
+        /// <param name="kind"> The kind of animal. </param>
+        /// <param name="name"> Name of the animal. </param>
+        /// <param name="additionalBinaryDataProperties"> Keeps track of any properties unknown to the library. </param>
+        /// <param name="trained"> Whether the pet is trained. </param>
+        /// <param name="breed"> The breed of the dog. </param>
+        internal Dog(string kind, string name, IDictionary<string, BinaryData> additionalBinaryDataProperties, bool trained, string breed) : base(kind, name, additionalBinaryDataProperties, trained)
+        {
+            Breed = breed;
+        }
+
+        /// <summary> The breed of the dog. </summary>
+        public string Breed { get; set; }
     }
 }

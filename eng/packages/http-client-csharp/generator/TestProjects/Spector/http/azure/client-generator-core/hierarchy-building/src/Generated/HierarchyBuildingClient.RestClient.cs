@@ -5,12 +5,10 @@
 
 #nullable disable
 
-using Azure.Core;
-
 namespace Specs.Azure.ClientGenerator.Core.HierarchyBuilding
 {
-    /// <summary> Client options for <see cref="HierarchyBuildingClient"/>. </summary>
-    public partial class HierarchyBuildingClientOptions : ClientOptions
+    /// <summary></summary>
+    public partial class HierarchyBuildingClient
     {
     }
 }

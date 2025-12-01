@@ -10,18 +10,40 @@ using System.Collections.Generic;
 
 namespace Specs.Azure.ClientGenerator.Core.HierarchyBuilding
 {
+    /// <summary> The Pet. </summary>
     public partial class Pet : Animal
     {
-        public Pet(string name, bool trained) : base("pet", name) => throw null;
-
-        internal Pet(string kind, string name, IDictionary<string, BinaryData> additionalBinaryDataProperties, bool trained) : base(kind, name, additionalBinaryDataProperties) => throw null;
-
-        private protected Pet(string kind, string name, bool trained) : base("pet", name) => throw null;
-
-        public bool Trained
+        /// <summary> Initializes a new instance of <see cref="Pet"/>. </summary>
+        /// <param name="name"> Name of the animal. </param>
+        /// <param name="trained"> Whether the pet is trained. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        public Pet(string name, bool trained) : base("pet", name)
         {
-            get => throw null;
-            set => throw null;
+            Argument.AssertNotNull(name, nameof(name));
+
+            Trained = trained;
         }
+
+        /// <summary> Initializes a new instance of <see cref="Pet"/>. </summary>
+        /// <param name="kind"> The kind of animal. </param>
+        /// <param name="name"> Name of the animal. </param>
+        /// <param name="additionalBinaryDataProperties"> Keeps track of any properties unknown to the library. </param>
+        /// <param name="trained"> Whether the pet is trained. </param>
+        internal Pet(string kind, string name, IDictionary<string, BinaryData> additionalBinaryDataProperties, bool trained) : base(kind, name, additionalBinaryDataProperties)
+        {
+            Trained = trained;
+        }
+
+        /// <summary> Initializes a new instance of <see cref="Pet"/>. </summary>
+        /// <param name="kind"> The kind of animal. </param>
+        /// <param name="name"> Name of the animal. </param>
+        /// <param name="trained"> Whether the pet is trained. </param>
+        private protected Pet(string kind, string name, bool trained) : base("pet", name)
+        {
+            Trained = trained;
+        }
+
+        /// <summary> Whether the pet is trained. </summary>
+        public bool Trained { get; set; }
     }
 }
